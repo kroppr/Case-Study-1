@@ -29,7 +29,7 @@ x0 = [ic_susc;ic_inf;ic_rec;ic_fatality];
 
 % simulate the SIRD model for t time-steps
 sys_sir_base = ss(A,B,eye(4),zeros(4,1),1);
-y = lsim(sys_sir_base,zeros(t,1),linsp ace(0,t-1,t),x0);
+y = lsim(sys_sir_base,zeros(t,1),linspace(0,t-1,t),x0);
 
 % return a "cost".  This is the quantitity that you want your model to
 % minimize.  Basically, this should encapsulate the difference between your
@@ -47,18 +47,13 @@ ModeledDeaths=y(:,4);
 
 ModeledCases=1-(y(:,1));
 
-COVID_MO_array=table2array(COVID_STLmetro(:,5:6));
-COVID_MO_proportion=COVID_MO_array/STLmetroPopFixed;
-
 ActualDeaths=data(:,2);
 
 ActualCases=data(:,1);
 
 
-cost=sum((ModeledCases-ActualCases)^2)+sum((ModeledDeaths-ActualDeaths)^2);
+cost=sum((ModeledCases-ActualCases).^2)+sum((ModeledDeaths-ActualDeaths).^2);
 
 f =cost;
 
 end
-
-
