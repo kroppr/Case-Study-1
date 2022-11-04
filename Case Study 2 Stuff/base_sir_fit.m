@@ -1,3 +1,4 @@
+
 data = load("COVIDdata.mat");
 COVID_STLmetro = deal(data.COVID_STLmetro);
 STLmetroPopFixed=27.3714*100000;
@@ -48,28 +49,147 @@ x0 = [0 0 0 1 0 0 0];
 % note tath you 
 x = fmincon(sirafun,x0,A,b,Af,bf,lb,ub);
 
-x_new_1 = x;
-x_new_1(1)= 0.20*x(1);
 
+%Segments to focus on:
+%0-100, 101-250, 251-350, 351-500, 500-650, 651-700, 701-end
+
+%Model section for segment 1
+segment_1 = coviddata(1:100,:);
+fun1= @(x)siroutput(x,100,segment_1);
+x1 = fmincon(fun1,x0,A,b,Af,bf,lb,ub);
+Y_fit_1 = siroutput_full(x1, 100);
+
+%determine new parameters for next segment
+New1(1) = Y_fit_1(100, 1);
+New1(2) = Y_fit_1(100, 2);
+New1(3) = Y_fit_1(100, 3);
+New1(4) = Y_fit_1(100, 4);
+
+%model section for segment 2 using new parameters
+segment_2 = coviddata(101:250, :);
+fun2= @(x)siroutput(x,150,segment_2);
+params2 = [0 0 0 New1(1) New1(2) New1(3) New1(4)];
+x2 = fmincon(fun2, params2, A, b, Af, bf, lb, ub);
+Y_fit_2 = siroutput_full(x2, 150);
+
+segment_3 = coviddata(251:350,:);
+fun3= @(x)siroutput(x,100,segment_3);
+
+segment_4 = coviddata(351:500,:);
+fun4= @(x)siroutput(x,150,segment_4);
+
+segment_5 = coviddata(501:650,:);
+fun5= @(x)siroutput(x,150,segment_5);
+
+segment_6 = coviddata(651:700,:);
+fun6= @(x)siroutput(x,50,segment_6);
+
+segment_7 = coviddata(701:798,:);
+fun7= @(x)siroutput(x,t-700,segment_7);
+
+
+%% SEGMENTS OF BASE MODEL
+
+%Adjust first segment of pandemic
+x_new_1 = x;
+%Adjust infection rate
+x_new_1(1)= x(1);
+%Adjust fatality rate
+x_new_1(2) = x(2);
+
+%adjust second segment of pandemic
 x_new_2 = x;
-x_new_2(2)= 0.04*x(2);
-x_new_2(1)= 0.20*x(1);
+%Adjust Infection Rate
+x_new_2(1)= x(1);
+%Adjust fatalities
+x_new_2(2)= x(2);
+
+%adjust 3rd segment of pandemic
+x_new_3 = x;
+%Adjust Infection Rate
+x_new_3(1)= x(1);
+%Adjust fatalities
+x_new_3(2)= x(2);
+
+%adjust 4th segment of pandemic
+x_new_4 = x;
+%Adjust Infection Rate
+x_new_4(1)= x(1);
+%Adjust fatalities
+x_new_4(2)= x(2);
+
+%adjust 5th segment of pandemic
+x_new_5 = x;
+%Adjust Infection Rate
+x_new_5(1)= x(1);
+%Adjust fatalities
+x_new_5(2)= x(2);
+
+%adjust 6th segment of pandemic
+x_new_6 = x;
+%Adjust Infection Rate
+x_new_6(1)= x(1);
+%Adjust fatalities
+x_new_6(2)= x(2);
+
+%adjust 7th segment of pandemic
+x_new_7 = x;
+%Adjust Infection Rate
+x_new_7(1)= x(1);
+%Adjust fatalities
+x_new_7(2)= x(2);
 
 %plot(Y);
 %legend('S','I','R','D');
 %xlabel('Time')
 
+%Full data model without segmenting (No touchy!)
 Y_fit = siroutput_full(x,t);
-Y_fit_A = siroutput_full(x_new_1,365);
 
-x_new_2(4) = Y_fit_A(365,1);
-x_new_2(5) = Y_fit_A(365,2);
-x_new_2(6) = Y_fit_A(365,3);
-x_new_2(7) = Y_fit_A(365,4);
+%Segment out portions of data
+Y_fit_A = siroutput_full(x_new_1,100);
+x_new_2(4) = Y_fit_A(100,1);
+x_new_2(5) = Y_fit_A(100,2);
+x_new_2(6) = Y_fit_A(100,3);
+x_new_2(7) = Y_fit_A(100,4);
 
-Y_fit_B = siroutput_full(x_new_2,t-365);
+Y_fit_B = siroutput_full(x_new_2,150);
+x_new_3(4) = Y_fit_B(150,1);
+x_new_3(5) = Y_fit_B(150,2);
+x_new_3(6) = Y_fit_B(150,3);
+x_new_3(7) = Y_fit_B(150,4);
 
-Y_fit_new=cat(1,Y_fit_A,Y_fit_B);
+Y_fit_C = siroutput_full(x_new_3,100);
+x_new_4(4) = Y_fit_C(100,1);
+x_new_4(5) = Y_fit_C(100,2);
+x_new_4(6) = Y_fit_C(100,3);
+x_new_4(7) = Y_fit_C(100,4);
+
+Y_fit_D = siroutput_full(x_new_4,150);
+x_new_5(4) = Y_fit_D(150,1);
+x_new_5(5) = Y_fit_D(150,2);
+x_new_5(6) = Y_fit_D(150,3);
+x_new_5(7) = Y_fit_D(150,4);
+
+Y_fit_E = siroutput_full(x_new_5,150);
+x_new_6(4) = Y_fit_E(150,1);
+x_new_6(5) = Y_fit_E(150,2);
+x_new_6(6) = Y_fit_E(150,3);
+x_new_6(7) = Y_fit_E(150,4);
+
+Y_fit_F = siroutput_full(x_new_6,50);
+x_new_7(4) = Y_fit_F(50,1);
+x_new_7(5) = Y_fit_F(50,2);
+x_new_7(6) = Y_fit_F(50,3);
+x_new_7(7) = Y_fit_F(50,4);
+
+Y_fit_G = siroutput_full(x_new_7,t-700);
+
+Y_fit_new = cat(1, Y_fit_A, Y_fit_B, Y_fit_C, Y_fit_D, Y_fit_E, Y_fit_F, Y_fit_G);
+
+%Y_fit_B = siroutput_full(x_new_2,t-365);
+
+%Y_fit_new=cat(1,Y_fit_A,Y_fit_B);
 
 figure(1);
 hold on
