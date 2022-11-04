@@ -51,25 +51,25 @@ x = fmincon(sirafun,x0,A,b,Af,bf,lb,ub);
 x_new_4_1 = x;
 x_new_4_1(1)= 0.20*x(1);
 
-x_new_2 = x;
-x_new_2(2)= 0.04*x(2);
-x_new_2(1)= 0.20*x(1);
+x_new_4_2 = x;
+x_new_4_2(2)= 0.04*x(2);
+x_new_4_2(1)= 0.20*x(1);
 
 %plot(Y);
 %legend('S','I','R','D');
 %xlabel('Time')
 
 Y_fit = siroutput_full(x,t);
-Y_fit_A = siroutput_full(x_new_4_1,365);
+Y_fit_4_A = siroutput_full(x_new_4_1,365);
 
-x_new_2(4) = Y_fit_A(365,1);
-x_new_2(5) = Y_fit_A(365,2);
-x_new_2(6) = Y_fit_A(365,3);
-x_new_2(7) = Y_fit_A(365,4);
+x_new_4_2(4) = Y_fit_4_A(365,1);
+x_new_4_2(5) = Y_fit_4_A(365,2);
+x_new_4_2(6) = Y_fit_4_A(365,3);
+x_new_4_2(7) = Y_fit_4_A(365,4);
 
-Y_fit_B = siroutput_full(x_new_2,t-365);
+Y_fit_4_B = siroutput_full(x_new_4_2,t-365);
 
-Y_fit_new=cat(1,Y_fit_A,Y_fit_B);
+Y_fit_new=cat(1,Y_fit_4_A,Y_fit_4_B);
 %% Model each segment
 %Segments to focus on:
 %0-100, 101-250, 251-350, 351-500, 500-650, 651-700, 701-end
@@ -216,45 +216,45 @@ x_new_5_7(2)= x7(2);
 Y_fit = siroutput_full(x,t);
 
 %Segment out portions of data
-Y_fit_A = siroutput_full(x_new_5_1,100);
-x_new_5_2(4) = Y_fit_A(100,1);
-x_new_5_2(5) = Y_fit_A(100,2);
-x_new_5_2(6) = Y_fit_A(100,3);
-x_new_5_2(7) = Y_fit_A(100,4);
+Y_fit_5_A = siroutput_full(x_new_5_1,0:100);
+x_new_5_2(4) = Y_fit_5_A(100,1);
+x_new_5_2(5) = Y_fit_5_A(100,2);
+x_new_5_2(6) = Y_fit_5_A(100,3);
+x_new_5_2(7) = Y_fit_5_A(100,4);
 
-Y_fit_B = siroutput_full(x_new_5_2,150);
-x_new_5_3(4) = Y_fit_B(150,1);
-x_new_5_3(5) = Y_fit_B(150,2);
-x_new_5_3(6) = Y_fit_B(150,3);
-x_new_5_3(7) = Y_fit_B(150,4);
+Y_fit_5_B = siroutput_full(x_new_5_2,101:250);
+x_new_5_3(4) = Y_fit_5_B(100:250,1);
+x_new_5_3(5) = Y_fit_5_B(150,2);
+x_new_5_3(6) = Y_fit_5_B(150,3);
+x_new_5_3(7) = Y_fit_5_B(150,4);
 
-Y_fit_C = siroutput_full(x_new_5_3,100);
-x_new_5_4(4) = Y_fit_C(100,1);
-x_new_5_4(5) = Y_fit_C(100,2);
-x_new_5_4(6) = Y_fit_C(100,3);
-x_new_5_4(7) = Y_fit_C(100,4);
+Y_fit_5_C = siroutput_full(x_new_5_3,251:350);
+x_new_5_4(4) = Y_fit_5_C(100,1);
+x_new_5_4(5) = Y_fit_5_C(100,2);
+x_new_5_4(6) = Y_fit_5_C(100,3);
+x_new_5_4(7) = Y_fit_5_C(100,4);
 
-Y_fit_D = siroutput_full(x_new_5_4,150);
-x_new_5_5(4) = Y_fit_D(150,1);
-x_new_5_5(5) = Y_fit_D(150,2);
-x_new_5_5(6) = Y_fit_D(150,3);
-x_new_5_5(7) = Y_fit_D(150,4);
+Y_fit_5_D = siroutput_full(x_new_5_4,351:500);
+x_new_5_5(4) = Y_fit_5_D(150,1);
+x_new_5_5(5) = Y_fit_5_D(150,2);
+x_new_5_5(6) = Y_fit_5_D(150,3);
+x_new_5_5(7) = Y_fit_5_D(150,4);
 
-Y_fit_E = siroutput_full(x_new_5_5,150);
-x_new_5_6(4) = Y_fit_E(150,1);
-x_new_5_6(5) = Y_fit_E(150,2);
-x_new_5_6(6) = Y_fit_E(150,3);
-x_new_5_6(7) = Y_fit_E(150,4);
+Y_fit_5_E = siroutput_full(x_new_5_5,501:650);
+x_new_5_6(4) = Y_fit_5_E(150,1);
+x_new_5_6(5) = Y_fit_5_E(150,2);
+x_new_5_6(6) = Y_fit_5_E(150,3);
+x_new_5_6(7) = Y_fit_5_E(150,4);
 
-Y_fit_F = siroutput_full(x_new_5_6,50);
-x_new_5_7(4) = Y_fit_F(50,1);
-x_new_5_7(5) = Y_fit_F(50,2);
-x_new_5_7(6) = Y_fit_F(50,3);
-x_new_5_7(7) = Y_fit_F(50,4);
+Y_fit_5_F = siroutput_full(x_new_5_6,651:700);
+x_new_5_7(4) = Y_fit_5_F(50,1);
+x_new_5_7(5) = Y_fit_5_F(50,2);
+x_new_5_7(6) = Y_fit_5_F(50,3);
+x_new_5_7(7) = Y_fit_5_F(50,4);
 
-Y_fit_G = siroutput_full(x_new_5_7,t-700);
+Y_fit_5_G = siroutput_full(x_new_5_7,t-700);
 
-Y_fit_new_2 = cat(1, Y_fit_A, Y_fit_B, Y_fit_C, Y_fit_D, Y_fit_E, Y_fit_F, Y_fit_G);
+Y_fit_new_5_2 = cat(1, Y_fit_5_A, Y_fit_5_B, Y_fit_5_C, Y_fit_5_D, Y_fit_5_E, Y_fit_5_F, Y_fit_5_G);
 
 %Y_fit_B = siroutput_full(x_new_2,t-365);
 
@@ -265,6 +265,7 @@ plot(COVID_MO_proportion(:,2));
 plot(Y_fit(:,4));
 legend('Actual Deaths','Modeled Deaths');
 xlabel('Time')
+ylabel('Cumulative Proportion')
 title('Actual Deaths versus Modeled Deaths')
 
 hold off
@@ -275,6 +276,7 @@ plot(COVID_MO_proportion(:,1));
 plot(1-Y_fit(:,1));
 legend('Actual Cases','Modeled Cases');
 xlabel('Time')
+ylabel('Cumulative Proportion')
 title('Actual Cases versus Modeled Cases')
 hold off
 
@@ -287,6 +289,7 @@ plot(1-Y_fit(:,1));
 plot(1-Y_fit_new(:,1));
 legend('Actual Cases','Modeled Cases', 'New Modeled Cases');
 xlabel('Time')
+ylabel('Cumulative Proportion')
 title('Proportion of Population Infected')
 hold off
 
@@ -297,6 +300,7 @@ plot(Y_fit(:,4));
 plot(Y_fit_new(:,4));
 legend('Actual Deaths','Modeled Deaths', 'New Modeled Deaths');
 xlabel('Time')
+ylabel('Cumulative Proportion')
 title('Proportion of Population Deceased')
 hold off
 
@@ -304,20 +308,22 @@ figure(5);
 hold on
 plot(COVID_MO_proportion(:,1));
 plot(1-Y_fit(:,1));
-plot(1-Y_fit_new_2(:,1));
+plot(1-Y_fit_new_5_2(:,1));
 plot(1 - Segmented_Fit(:,1));
 legend('Actual Cases','Modeled Cases', 'New Modeled Cases', 'Modified Model Cases');
 xlabel('Time')
-title('Proportion of Population Infected')
+ylabel('Cumulative Proportion')
+title('Cumulative Proportion of Population Infected')
 hold off
 
 figure(6);
 hold on
 plot(COVID_MO_proportion(:,2));
 plot(Y_fit(:,4));
-plot(Y_fit_new_2(:,4));
+plot(Y_fit_new_5_2(:,4));
 plot(Segmented_Fit(:,4));
 legend('Actual Deaths','Modeled Deaths', 'New Modeled Deaths', 'Modified Model Deaths');
 xlabel('Time')
+ylabel('Cumulative Proportion')
 title('Proportion of Population Deceased')
 hold off
