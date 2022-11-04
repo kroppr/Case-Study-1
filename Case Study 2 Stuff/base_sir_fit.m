@@ -1,4 +1,3 @@
-
 data = load("COVIDdata.mat");
 COVID_STLmetro = deal(data.COVID_STLmetro);
 STLmetroPopFixed=27.3714*100000;
@@ -49,7 +48,28 @@ x0 = [0 0 0 1 0 0 0];
 % note tath you 
 x = fmincon(sirafun,x0,A,b,Af,bf,lb,ub);
 
+x_new_4_1 = x;
+x_new_4_1(1)= 0.20*x(1);
 
+x_new_2 = x;
+x_new_2(2)= 0.04*x(2);
+x_new_2(1)= 0.20*x(1);
+
+%plot(Y);
+%legend('S','I','R','D');
+%xlabel('Time')
+
+Y_fit = siroutput_full(x,t);
+Y_fit_A = siroutput_full(x_new_4_1,365);
+
+x_new_2(4) = Y_fit_A(365,1);
+x_new_2(5) = Y_fit_A(365,2);
+x_new_2(6) = Y_fit_A(365,3);
+x_new_2(7) = Y_fit_A(365,4);
+
+Y_fit_B = siroutput_full(x_new_2,t-365);
+
+Y_fit_new=cat(1,Y_fit_A,Y_fit_B);
 %% Model each segment
 %Segments to focus on:
 %0-100, 101-250, 251-350, 351-500, 500-650, 651-700, 701-end
@@ -140,53 +160,53 @@ Segmented_Fit = cat(1, Y_fit_1, Y_fit_2, Y_fit_3, Y_fit_4, Y_fit_5, Y_fit_6, Y_f
 %end. As of right now that is not the case, but its a work in progress
 
 %Adjust first segment of pandemic
-x_new_1 = x1;
+x_new_5_1 = x1;
 %Adjust infection rate
-x_new_1(1)= x1(1);
+x_new_5_1(1)= x1(1);
 %Adjust fatality rate
-x_new_1(2) = x1(2);
+x_new_5_1(2) = x1(2);
 
 %adjust second segment of pandemic
-x_new_2 = x2;
+x_new_5_2 = x2;
 %Adjust Infection Rate
-x_new_2(1)= x2(1);
+x_new_5_2(1)= x2(1);
 %Adjust fatalities
-x_new_2(2)= x2(2);
+x_new_5_2(2)= x2(2);
 
 %adjust 3rd segment of pandemic
-x_new_3 = x3;
+x_new_5_3 = x3;
 %Adjust Infection Rate
-x_new_3(1)= x3(1);
+x_new_5_3(1)= x3(1);
 %Adjust fatalities
-x_new_3(2)= x3(2);
+x_new_5_3(2)= x3(2);
 
 %adjust 4th segment of pandemic
-x_new_4 = x4;
+x_new_5_4 = x4;
 %Adjust Infection Rate
-x_new_4(1)= x4(1);
+x_new_5_4(1)= x4(1);
 %Adjust fatalities
-x_new_4(2)= x4(2);
+x_new_5_4(2)= x4(2);
 
 %adjust 5th segment of pandemic
-x_new_5 = x5;
+x_new_5_5 = x5;
 %Adjust Infection Rate
-x_new_5(1)= x5(1);
+x_new_5_5(1)= x5(1);
 %Adjust fatalities
-x_new_5(2)= x5(2);
+x_new_5_5(2)= x5(2);
 
 %adjust 6th segment of pandemic
-x_new_6 = x6;
+x_new_5_6 = x6;
 %Adjust Infection Rate
-x_new_6(1)= x6(1);
+x_new_5_6(1)= x6(1);
 %Adjust fatalities
-x_new_6(2)= x6(2);
+x_new_5_6(2)= x6(2);
 
 %adjust 7th segment of pandemic
-x_new_7 = x7;
+x_new_5_7 = x7;
 %Adjust Infection Rate
-x_new_7(1)= x7(1);
+x_new_5_7(1)= x7(1);
 %Adjust fatalities
-x_new_7(2)= x7(2);
+x_new_5_7(2)= x7(2);
 
 %plot(Y);
 %legend('S','I','R','D');
@@ -196,51 +216,49 @@ x_new_7(2)= x7(2);
 Y_fit = siroutput_full(x,t);
 
 %Segment out portions of data
-Y_fit_A = siroutput_full(x_new_1,100);
-x_new_2(4) = Y_fit_A(100,1);
-x_new_2(5) = Y_fit_A(100,2);
-x_new_2(6) = Y_fit_A(100,3);
-x_new_2(7) = Y_fit_A(100,4);
+Y_fit_A = siroutput_full(x_new_5_1,100);
+x_new_5_2(4) = Y_fit_A(100,1);
+x_new_5_2(5) = Y_fit_A(100,2);
+x_new_5_2(6) = Y_fit_A(100,3);
+x_new_5_2(7) = Y_fit_A(100,4);
 
-Y_fit_B = siroutput_full(x_new_2,150);
-x_new_3(4) = Y_fit_B(150,1);
-x_new_3(5) = Y_fit_B(150,2);
-x_new_3(6) = Y_fit_B(150,3);
-x_new_3(7) = Y_fit_B(150,4);
+Y_fit_B = siroutput_full(x_new_5_2,150);
+x_new_5_3(4) = Y_fit_B(150,1);
+x_new_5_3(5) = Y_fit_B(150,2);
+x_new_5_3(6) = Y_fit_B(150,3);
+x_new_5_3(7) = Y_fit_B(150,4);
 
-Y_fit_C = siroutput_full(x_new_3,100);
-x_new_4(4) = Y_fit_C(100,1);
-x_new_4(5) = Y_fit_C(100,2);
-x_new_4(6) = Y_fit_C(100,3);
-x_new_4(7) = Y_fit_C(100,4);
+Y_fit_C = siroutput_full(x_new_5_3,100);
+x_new_5_4(4) = Y_fit_C(100,1);
+x_new_5_4(5) = Y_fit_C(100,2);
+x_new_5_4(6) = Y_fit_C(100,3);
+x_new_5_4(7) = Y_fit_C(100,4);
 
-Y_fit_D = siroutput_full(x_new_4,150);
-x_new_5(4) = Y_fit_D(150,1);
-x_new_5(5) = Y_fit_D(150,2);
-x_new_5(6) = Y_fit_D(150,3);
-x_new_5(7) = Y_fit_D(150,4);
+Y_fit_D = siroutput_full(x_new_5_4,150);
+x_new_5_5(4) = Y_fit_D(150,1);
+x_new_5_5(5) = Y_fit_D(150,2);
+x_new_5_5(6) = Y_fit_D(150,3);
+x_new_5_5(7) = Y_fit_D(150,4);
 
-Y_fit_E = siroutput_full(x_new_5,150);
-x_new_6(4) = Y_fit_E(150,1);
-x_new_6(5) = Y_fit_E(150,2);
-x_new_6(6) = Y_fit_E(150,3);
-x_new_6(7) = Y_fit_E(150,4);
+Y_fit_E = siroutput_full(x_new_5_5,150);
+x_new_5_6(4) = Y_fit_E(150,1);
+x_new_5_6(5) = Y_fit_E(150,2);
+x_new_5_6(6) = Y_fit_E(150,3);
+x_new_5_6(7) = Y_fit_E(150,4);
 
-Y_fit_F = siroutput_full(x_new_6,50);
-x_new_7(4) = Y_fit_F(50,1);
-x_new_7(5) = Y_fit_F(50,2);
-x_new_7(6) = Y_fit_F(50,3);
-x_new_7(7) = Y_fit_F(50,4);
+Y_fit_F = siroutput_full(x_new_5_6,50);
+x_new_5_7(4) = Y_fit_F(50,1);
+x_new_5_7(5) = Y_fit_F(50,2);
+x_new_5_7(6) = Y_fit_F(50,3);
+x_new_5_7(7) = Y_fit_F(50,4);
 
-Y_fit_G = siroutput_full(x_new_7,t-700);
+Y_fit_G = siroutput_full(x_new_5_7,t-700);
 
-Y_fit_new = cat(1, Y_fit_A, Y_fit_B, Y_fit_C, Y_fit_D, Y_fit_E, Y_fit_F, Y_fit_G);
+Y_fit_new_2 = cat(1, Y_fit_A, Y_fit_B, Y_fit_C, Y_fit_D, Y_fit_E, Y_fit_F, Y_fit_G);
 
 %Y_fit_B = siroutput_full(x_new_2,t-365);
 
 %Y_fit_new=cat(1,Y_fit_A,Y_fit_B);
-
-%% Plotting
 figure(1);
 hold on
 plot(COVID_MO_proportion(:,2));
@@ -267,8 +285,7 @@ hold on
 plot(COVID_MO_proportion(:,1));
 plot(1-Y_fit(:,1));
 plot(1-Y_fit_new(:,1));
-plot(1 - Segmented_Fit(:,1));
-legend('Actual Cases','Modeled Cases', 'New Modeled Cases', 'Modified Model Cases');
+legend('Actual Cases','Modeled Cases', 'New Modeled Cases');
 xlabel('Time')
 title('Proportion of Population Infected')
 hold off
@@ -278,6 +295,27 @@ hold on
 plot(COVID_MO_proportion(:,2));
 plot(Y_fit(:,4));
 plot(Y_fit_new(:,4));
+legend('Actual Deaths','Modeled Deaths', 'New Modeled Deaths');
+xlabel('Time')
+title('Proportion of Population Deceased')
+hold off
+
+figure(5);
+hold on
+plot(COVID_MO_proportion(:,1));
+plot(1-Y_fit(:,1));
+plot(1-Y_fit_new_2(:,1));
+plot(1 - Segmented_Fit(:,1));
+legend('Actual Cases','Modeled Cases', 'New Modeled Cases', 'Modified Model Cases');
+xlabel('Time')
+title('Proportion of Population Infected')
+hold off
+
+figure(6);
+hold on
+plot(COVID_MO_proportion(:,2));
+plot(Y_fit(:,4));
+plot(Y_fit_new_2(:,4));
 plot(Segmented_Fit(:,4));
 legend('Actual Deaths','Modeled Deaths', 'New Modeled Deaths', 'Modified Model Deaths');
 xlabel('Time')
