@@ -60,7 +60,7 @@ fun1= @(x)siroutput(x,100,segment_1);
 x1 = fmincon(fun1,x0,A,b,Af,bf,lb,ub);
 Y_fit_1 = siroutput_full(x1, 100);
 
-%determine new parameters for next segment
+%determine new parameters for next segment, NOT IN USE RIGHT NOW
 New1(1) = Y_fit_1(100, 1);
 New1(2) = Y_fit_1(100, 2);
 New1(3) = Y_fit_1(100, 3);
@@ -69,8 +69,9 @@ New1(4) = Y_fit_1(100, 4);
 %model section for segment 2 using new parameters
 segment_2 = coviddata(101:250, :);
 fun2= @(x)siroutput(x,150,segment_2);
-params2 = [0 0 0 New1(1) New1(2) New1(3) New1(4)];
-x2 = fmincon(fun2, params2, A, b, Af, bf, lb, ub);
+%Parameters, NOT IN USE RIGHT NOW
+params2 = [x1(1) x1(2) x1(3) New1(1) New1(2) New1(3) New1(4)];
+x2 = fmincon(fun2, x1, A, b, Af, bf, lb, ub);
 Y_fit_2 = siroutput_full(x2, 150);
 
 New2(1) = Y_fit_2(150, 1);
@@ -81,8 +82,8 @@ New2(4) = Y_fit_2(150, 4);
 
 segment_3 = coviddata(251:350,:);
 fun3= @(x)siroutput(x,100,segment_3);
-params3 = [0 0 0 New2(1) New2(2) New2(3) New2(4)];
-x3 = fmincon(fun3, params3, A, b, Af, bf, lb, ub);
+params3 = [x2(1) x2(2) x2(3) New2(1) New2(2) New2(3) New2(4)];
+x3 = fmincon(fun3, x2, A, b, Af, bf, lb, ub);
 Y_fit_3 = siroutput_full(x3, 100);
 
 New3(1) = Y_fit_3(100, 1);
@@ -93,8 +94,8 @@ New3(4) = Y_fit_3(100, 4);
 
 segment_4 = coviddata(351:500,:);
 fun4= @(x)siroutput(x,150,segment_4);
-params4 = [0 0 0 New3(1) New3(2) New3(3) New3(4)];
-x4 = fmincon(fun4, params4, A, b, Af, bf, lb, ub);
+params4 = [x3(1) x3(2) x3(3) New3(1) New3(2) New3(3) New3(4)];
+x4 = fmincon(fun4, x3, A, b, Af, bf, lb, ub);
 Y_fit_4 = siroutput_full(x4, 150);
 
 New4(1) = Y_fit_4(150, 1);
@@ -105,8 +106,8 @@ New4(4) = Y_fit_4(150, 4);
 
 segment_5 = coviddata(501:650,:);
 fun5= @(x)siroutput(x,150,segment_5);
-params5 = [0 0 0 New4(1) New4(2) New4(3) New4(4)];
-x5 = fmincon(fun5, params5, A, b, Af, bf, lb, ub);
+params5 = [x4(1) x4(2) x4(3) New4(1) New4(2) New4(3) New4(4)];
+x5 = fmincon(fun5, x4, A, b, Af, bf, lb, ub);
 Y_fit_5 = siroutput_full(x5, 150);
 
 New5(1) = Y_fit_5(150, 1);
@@ -116,8 +117,8 @@ New5(4) = Y_fit_5(150, 4);
 
 segment_6 = coviddata(651:700,:);
 fun6= @(x)siroutput(x,50,segment_6);
-params6 = [0 0 0 New5(1) New5(2) New5(3) New5(4)];
-x6 = fmincon(fun6, params6, A, b, Af, bf, lb, ub);
+params6 = [x5(1) x5(2) x5(3) New5(1) New5(2) New5(3) New5(4)];
+x6 = fmincon(fun6, x5, A, b, Af, bf, lb, ub);
 Y_fit_6 = siroutput_full(x6, 50);
 
 New6(1) = Y_fit_6(50, 1);
@@ -127,63 +128,65 @@ New6(4) = Y_fit_6(50, 4);
 
 segment_7 = coviddata(701:798,:);
 fun7= @(x)siroutput(x,t-700,segment_7);
-params7 = [0 0 0 New6(1) New6(2) New6(3) New6(4)];
-x7 = fmincon(fun7, params7, A, b, Af, bf, lb, ub);
+params7 = [x6(1) x6(2) x6(3) New6(1) New6(2) New6(3) New6(4)];
+x7 = fmincon(fun7, x6, A, b, Af, bf, lb, ub);
 Y_fit_7 = siroutput_full(x7, t-700);
 
 Segmented_Fit = cat(1, Y_fit_1, Y_fit_2, Y_fit_3, Y_fit_4, Y_fit_5, Y_fit_6, Y_fit_7);
 
 
-%% SEGMENTS OF BASE MODEL, ignore this
+%% SEGMENT MODIFICATION OF MODDED DATA
+%Result will be Y_fit_new and should look identical to Segmented_Fit at the
+%end. As of right now that is not the case, but its a work in progress
 
 %Adjust first segment of pandemic
-x_new_1 = x;
+x_new_1 = x1;
 %Adjust infection rate
-x_new_1(1)= x(1);
+x_new_1(1)= x1(1);
 %Adjust fatality rate
-x_new_1(2) = x(2);
+x_new_1(2) = x1(2);
 
 %adjust second segment of pandemic
-x_new_2 = x;
+x_new_2 = x2;
 %Adjust Infection Rate
-x_new_2(1)= x(1);
+x_new_2(1)= x2(1);
 %Adjust fatalities
-x_new_2(2)= x(2);
+x_new_2(2)= x2(2);
 
 %adjust 3rd segment of pandemic
-x_new_3 = x;
+x_new_3 = x3;
 %Adjust Infection Rate
-x_new_3(1)= x(1);
+x_new_3(1)= x3(1);
 %Adjust fatalities
-x_new_3(2)= x(2);
+x_new_3(2)= x3(2);
 
 %adjust 4th segment of pandemic
-x_new_4 = x;
+x_new_4 = x4;
 %Adjust Infection Rate
-x_new_4(1)= x(1);
+x_new_4(1)= x4(1);
 %Adjust fatalities
-x_new_4(2)= x(2);
+x_new_4(2)= x4(2);
 
 %adjust 5th segment of pandemic
-x_new_5 = x;
+x_new_5 = x5;
 %Adjust Infection Rate
-x_new_5(1)= x(1);
+x_new_5(1)= x5(1);
 %Adjust fatalities
-x_new_5(2)= x(2);
+x_new_5(2)= x5(2);
 
 %adjust 6th segment of pandemic
-x_new_6 = x;
+x_new_6 = x6;
 %Adjust Infection Rate
-x_new_6(1)= x(1);
+x_new_6(1)= x6(1);
 %Adjust fatalities
-x_new_6(2)= x(2);
+x_new_6(2)= x6(2);
 
 %adjust 7th segment of pandemic
-x_new_7 = x;
+x_new_7 = x7;
 %Adjust Infection Rate
-x_new_7(1)= x(1);
+x_new_7(1)= x7(1);
 %Adjust fatalities
-x_new_7(2)= x(2);
+x_new_7(2)= x7(2);
 
 %plot(Y);
 %legend('S','I','R','D');
@@ -276,7 +279,7 @@ plot(COVID_MO_proportion(:,2));
 plot(Y_fit(:,4));
 plot(Y_fit_new(:,4));
 plot(Segmented_Fit(:,4));
-legend('Actual Deaths','Modeled Deaths', 'New Modeled Deaths');
+legend('Actual Deaths','Modeled Deaths', 'New Modeled Deaths', 'Modified Model Deaths');
 xlabel('Time')
 title('Proportion of Population Deceased')
 hold off
