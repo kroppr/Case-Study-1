@@ -216,37 +216,37 @@ x_new_5_7(2)= x7(2);
 Y_fit = siroutput_full(x,t);
 
 %Segment out portions of data
-Y_fit_5_A = siroutput_full(x_new_5_1,0:100);
+Y_fit_5_A = siroutput_full(x_new_5_1,100);
 x_new_5_2(4) = Y_fit_5_A(100,1);
 x_new_5_2(5) = Y_fit_5_A(100,2);
 x_new_5_2(6) = Y_fit_5_A(100,3);
 x_new_5_2(7) = Y_fit_5_A(100,4);
 
-Y_fit_5_B = siroutput_full(x_new_5_2,101:250);
-x_new_5_3(4) = Y_fit_5_B(100:250,1);
+Y_fit_5_B = siroutput_full(x_new_5_2,150);
+x_new_5_3(4) = Y_fit_5_B(150,1);
 x_new_5_3(5) = Y_fit_5_B(150,2);
 x_new_5_3(6) = Y_fit_5_B(150,3);
 x_new_5_3(7) = Y_fit_5_B(150,4);
 
-Y_fit_5_C = siroutput_full(x_new_5_3,251:350);
+Y_fit_5_C = siroutput_full(x_new_5_3,100);
 x_new_5_4(4) = Y_fit_5_C(100,1);
 x_new_5_4(5) = Y_fit_5_C(100,2);
 x_new_5_4(6) = Y_fit_5_C(100,3);
 x_new_5_4(7) = Y_fit_5_C(100,4);
 
-Y_fit_5_D = siroutput_full(x_new_5_4,351:500);
+Y_fit_5_D = siroutput_full(x_new_5_4,150);
 x_new_5_5(4) = Y_fit_5_D(150,1);
 x_new_5_5(5) = Y_fit_5_D(150,2);
 x_new_5_5(6) = Y_fit_5_D(150,3);
 x_new_5_5(7) = Y_fit_5_D(150,4);
 
-Y_fit_5_E = siroutput_full(x_new_5_5,501:650);
+Y_fit_5_E = siroutput_full(x_new_5_5,150);
 x_new_5_6(4) = Y_fit_5_E(150,1);
 x_new_5_6(5) = Y_fit_5_E(150,2);
 x_new_5_6(6) = Y_fit_5_E(150,3);
 x_new_5_6(7) = Y_fit_5_E(150,4);
 
-Y_fit_5_F = siroutput_full(x_new_5_6,651:700);
+Y_fit_5_F = siroutput_full(x_new_5_6,50);
 x_new_5_7(4) = Y_fit_5_F(50,1);
 x_new_5_7(5) = Y_fit_5_F(50,2);
 x_new_5_7(6) = Y_fit_5_F(50,3);
