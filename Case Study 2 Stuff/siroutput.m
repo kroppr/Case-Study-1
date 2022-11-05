@@ -52,7 +52,7 @@ ActualDeaths=data(:,2);
 ActualCases=data(:,1);
 
 
-cost=sum((ModeledCases-ActualCases).^2)+sum((ModeledDeaths-ActualDeaths).^2);
+cost=sum((ModeledCases-ActualCases).^2)+100*sum((ModeledDeaths-ActualDeaths).^2);
 
 f =cost;
 
