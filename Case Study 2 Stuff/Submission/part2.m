@@ -15,7 +15,7 @@ t = length(coviddata(:,1)); % TO SPECIFY
 % and see the sectiono on 'passing extra arguments'
 % Basically, 'sirafun' is being set as the function siroutput (which you
 % will be designing) but with t and coviddata specified.
-sirafun= @(x)siroutput(x,t,coviddata);
+sirafun= @(x)siroutput_part2(x,t,coviddata);
 
 %% set up rate and initial condition constraints
 % Set A and b to impose a parameter inequality constraint of the form A*x < b
