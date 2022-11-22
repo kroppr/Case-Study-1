@@ -30,6 +30,7 @@ img = rays2img(rays(1,:),rays(3,:),0.008,200);
 figure(2);
 hold on;
 image(img);
+axis tight
 colormap ("gray")
 hold off;
 
@@ -117,11 +118,20 @@ figure(5);
 hold on;
 image(img);
 colormap ("gray")
+axis tight
 hold off;
 
 
+%% Computational imaging
 
+%Create an inverted matrix
+%I understand that this isn't the correct way to do it
+%FIXME replace with actual method
+Mi = inv(M);
 
+%Now let's see if these rays_outs become equal to the original value
+rays_0 = Mi*rays_out0;
 
+rays_10 = Mi*rays_out10;
 
-
+%The resulting matrices are identical to rays_in0 and rays_in10
