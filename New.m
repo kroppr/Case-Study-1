@@ -23,6 +23,7 @@ figure(1)
 plot(ray_z, [rays_in0(1,:); rays_out0(1,:)], Color="r");
 hold on;
 plot(ray_z, [rays_in10(1,:); rays_out10(1,:)], Color="b");
+title("Ray Set 1")
 hold off;
 
 %% Light Field
@@ -31,6 +32,7 @@ figure(2);
 hold on;
 image(img);
 axis tight
+title("Light Field, Initial Attempt")
 colormap ("gray")
 hold off;
 
@@ -94,6 +96,7 @@ plot(ray_z1, [rays_in1(1,:); rays_out1M1(1,:)], Color="b");
 
 plot(ray_z2, [rays_out0Mf(1,:); rays_out0M2(1,:)], Color="r");
 plot(ray_z2, [rays_out1Mf(1,:); rays_out1M2(1,:)], Color="b");
+title("Focused Ray Set")
 hold off;
 
 
@@ -118,6 +121,7 @@ figure(5);
 hold on;
 image(img);
 colormap ("gray")
+title("Lightfield, Lens Applied")
 axis tight
 hold off;
 
@@ -140,7 +144,7 @@ Mi = [1 0 0 0; 0 1 0 0; 0 0 1 0; 0 0 0 1];
 
 %I will make a copy of M so it isn't damaged
 M3 = M;
-d = 0.1
+d = 0.1;
 
 %Now we apply the same methods to both matrices to convert M3 to an
 %identity and make Mi an inverse
@@ -181,5 +185,6 @@ figure(6);
 hold on;
 image(img);
 colormap ("gray")
+title("Lightfield, Inverted Matrix")
 axis tight
 hold off;
