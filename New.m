@@ -127,11 +127,59 @@ hold off;
 %Create an inverted matrix
 %I understand that this isn't the correct way to do it
 %FIXME replace with actual method
-Mi = inv(M);
 
-%Now let's see if these rays_outs become equal to the original value
-rays_0 = Mi*rays_out0;
+%Start off with an identity matrix that we will use to compare with M
+Mi = [1 0 0 0; 0 1 0 0; 0 0 1 0; 0 0 0 1];
 
-rays_10 = Mi*rays_out10;
+%Now we need to find the inverse, for that all we have to do is convert M
+%to an identity matrix and store the changes into Mi, which will become the
+%inverse
+%M is a very simple matrix and the only changes we have to do is cancel out
+%the d values from it, this means putting -d values into Mi in their
+%respective positions
 
-%The resulting matrices are identical to rays_in0 and rays_in10
+%I will make a copy of M so it isn't damaged
+M3 = M;
+d = 0.1
+
+%Now we apply the same methods to both matrices to convert M3 to an
+%identity and make Mi an inverse
+M3(1,:) = M(1,:) - M(2,:)*d;
+Mi(1,:) = Mi(1,:) - Mi(2,:)*d;
+
+M3(3,:) = M(3,:) - M(4,:)*d;
+Mi(3,:) = Mi(3,:) - M(4,:)*d;
+
+%Compared to an M matrix where the d values were made negative, the inverse
+%of M and M-d are equivalent to one another
+
+%% Lightfield Revisited
+
+%Create a new matrix that is equal to the inverse of M with a selected
+%distance
+
+%A distance of 1 is perfect in this case
+d = 1;
+
+%Determine the base matrix and the identity
+M4 = [1 d 0 0; 0 1 0 0; 0 0 1 d; 0 0 0 1];
+
+M4i = [1 0 0 0; 0 1 0 0; 0 0 1 0; 0 0 0 1];
+
+%Turn the identity into the inverse
+M4(1,:) = M4(1,:) - M4(2,:)*d;
+M4i(1,:) = M4i(1,:) - M4i(2,:)*d;
+
+M4(3,:) = M4(3,:) - M4(4,:)*d;
+M4i(3,:) = M4i(3,:) - M4i(4,:)*d;
+
+%Process the results
+rays_final = M4i*rays;
+
+img = rays2img(rays_final(1,:),rays_final(3,:),0.008,200);
+figure(6);
+hold on;
+image(img);
+colormap ("gray")
+axis tight
+hold off;
